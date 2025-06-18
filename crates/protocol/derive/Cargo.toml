@@ -50,6 +50,12 @@ tracing = { workspace = true, features = ["std"] }
 alloy-primitives = { workspace = true, features = ["rlp", "k256", "map", "arbitrary"] }
 op-alloy-consensus = { workspace = true, features = ["k256"] }
 
+# For REVM execution tests
+kona-executor.workspace = true
+kona-mpt.workspace = true
+alloy-evm.workspace = true
+alloy-op-evm.workspace = true
+
 [features]
 default = []
 serde = [

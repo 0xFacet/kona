@@ -255,4 +255,15 @@ impl OpEngineApi<AnyNetwork, Http<HyperAuthClient>> for EngineClient {
             Http<HyperAuthClient>,
         >>::exchange_capabilities(&self.engine, capabilities).await
     }
+
+    async fn signal_superchain_v1(
+        &self,
+        recommended_version: ProtocolVersion,
+        required_version: ProtocolVersion,
+    ) -> TransportResult<ProtocolVersion> {
+        <RootProvider<AnyNetwork> as OpEngineApi<
+            AnyNetwork,
+            Http<HyperAuthClient>,
+        >>::signal_superchain_v1(&self.engine, recommended_version, required_version).await
+    }
 }
