@@ -3,6 +3,7 @@ use alloy_rlp::{RlpDecodable, RlpEncodable, Decodable};
 use op_alloy_consensus::TxDeposit;
 use crate::FctMintCalculator;
 use alloc::string::{String, ToString};
+use alloc::format;
 
 /// Prefix byte identifying a Facet payload.
 pub const FACET_TX_TYPE: u8 = 0x46;
@@ -44,7 +45,7 @@ pub enum DecodeError {
     BadChainId(u64, u64),
 }
 
-/// Internal RLP structure matching the format: [chain_id, to, value, gas, data, sig]
+/// Internal RLP structure matching the format: [chain_id, to, value, gas, data, mine_boost]
 #[derive(Debug, Clone, RlpDecodable, RlpEncodable)]
 struct FacetPayloadRlp {
     chain_id: u64,
@@ -52,7 +53,7 @@ struct FacetPayloadRlp {
     value: U256,
     gas_limit: u64,
     data: Bytes,
-    signature: Bytes,
+    mine_boost: Bytes,  // Additional data that counts toward FCT mint
 }
 
 #[derive(Debug, Clone)]
@@ -80,10 +81,13 @@ pub fn decode_facet_payload(bytes: &[u8], l2_chain_id: u64, contract_initiated: 
         return Err(DecodeError::BadChainId(rlp_payload.chain_id, l2_chain_id));
     }
     
-    let to = if rlp_payload.to.is_empty() || rlp_payload.to.len() != 20 {
-        None
-    } else {
+    let to = if rlp_payload.to.is_empty() {
+        None // Contract creation
+    } else if rlp_payload.to.len() == 20 {
         Some(Address::from_slice(&rlp_payload.to))
+    } else {
+        // Invalid "to" field - must be either empty or exactly 20 bytes
+        return Err(DecodeError::Rlp(format!("invalid 'to' field length: {}", rlp_payload.to.len())));
     };
     
     // Calculate L1 data gas used based on the entire transaction payload

@@ -53,10 +53,17 @@ pub fn derive_facet_deposits(
         };
 
         if maybe_to == Some(FACET_INBOX_ADDRESS) && !input.is_empty() {
-            let payload = decode_facet_payload(input, l2_chain_id, false)?; // Direct calldata to inbox
-            let from = tx.recover_signer().unwrap_or_default();
-            
-            facet_payloads.push((payload, from, tx_hash));
+            // Try to decode the facet payload, skip if invalid
+            match decode_facet_payload(input, l2_chain_id, false) {
+                Ok(payload) => {
+                    let from = tx.recover_signer().unwrap_or_default();
+                    facet_payloads.push((payload, from, tx_hash));
+                },
+                Err(_) => {
+                    // Skip invalid facet transactions (wrong prefix, invalid RLP, etc.)
+                    // This handles cases like gzipped data or other malformed inputs
+                }
+            }
             continue; // one deposit per tx
         }
 
@@ -71,10 +78,16 @@ pub fn derive_facet_deposits(
             }
         }
         if let Some(log) = first_log {
-            let payload = decode_facet_payload(&log.data.data, l2_chain_id, true)?; // Contract-initiated via log
-            let from = alias_l1_to_l2(log.address);
-            
-            facet_payloads.push((payload, from, tx_hash));
+            // Try to decode the facet payload from log, skip if invalid
+            match decode_facet_payload(&log.data.data, l2_chain_id, true) {
+                Ok(payload) => {
+                    let from = alias_l1_to_l2(log.address);
+                    facet_payloads.push((payload, from, tx_hash));
+                },
+                Err(_) => {
+                    // Skip invalid facet log data (wrong prefix, invalid RLP, etc.)
+                }
+            }
         }
     }
 

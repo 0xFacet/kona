@@ -131,10 +131,10 @@ impl L1BlockInfoTx {
             base_fee: l1_header.base_fee_per_gas.unwrap_or(0),
             block_hash: l1_header.hash_slow(),
             sequence_number,
-            batcher_address: system_config.batcher_address,
-            blob_base_fee: l1_header.blob_fee(blob_fee_config).unwrap_or(1),
-            blob_base_fee_scalar,
-            base_fee_scalar,
+            batcher_address: Address::ZERO, // Facet hardcodes batcher to zero
+            blob_base_fee: 1, // Facet hardcodes blob base fee to 1
+            blob_base_fee_scalar: 1,
+            base_fee_scalar: 0,
             empty_scalars: false,
             l1_fee_overhead: U256::ZERO,
             fct_mint_rate,

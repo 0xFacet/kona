@@ -147,21 +147,26 @@ start_stats_monitor() {
         
         if [ $processed -gt 0 ]; then
             local elapsed=$(($(date +%s) - START_TIME))
-            local rate=$(awk "BEGIN {printf \"%.2f\", $processed / ($elapsed / 60.0)}")
-            local eta_minutes=$(awk "BEGIN {printf \"%.0f\", ($TOTAL_BLOCKS - $processed) / $rate}")
-            local success_rate=$(awk "BEGIN {printf \"%.2f\", ($completed * 100.0) / $processed}")
+            local rate=$(echo "scale=2; $processed / ($elapsed / 60.0)" | bc)
+            local eta_minutes=$(echo "($TOTAL_BLOCKS - $processed) / $rate" | bc)
+            local success_rate=$(echo "scale=2; ($completed * 100.0) / $processed" | bc)
             
-            echo ""
+            # Clear previous line and print update
+            printf "\r\033[K"
             echo "📊 Progress Update ($(date +%H:%M:%S))"
-            echo "  Processed: $processed / $TOTAL_BLOCKS ($(awk "BEGIN {printf \"%.1f\", ($processed * 100.0) / $TOTAL_BLOCKS}")%)"
+            echo "  Processed: $processed / $TOTAL_BLOCKS ($(echo "scale=1; ($processed * 100.0) / $TOTAL_BLOCKS" | bc)%)"
             echo "  Success rate: $success_rate%"
             echo "  Speed: $rate blocks/min"
-            echo "  ETA: $(date -d "+$eta_minutes minutes" +%H:%M:%S)"
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                echo "  ETA: $(date -v +${eta_minutes}M +%H:%M:%S)"
+            else
+                echo "  ETA: $(date -d "+$eta_minutes minutes" +%H:%M:%S)"
+            fi
             
             # Check failure threshold
-            if (( $(awk "BEGIN {print ($failed * 100 / $processed > $FAILURE_THRESHOLD)}") )); then
+            if (( $(echo "$failed * 100 / $processed > $FAILURE_THRESHOLD" | bc) )); then
                 echo ""
-                echo "⚠️  STOPPING: Failure rate ($(awk "BEGIN {printf \"%.1f\", ($failed * 100.0) / $processed}")%) exceeds threshold ($FAILURE_THRESHOLD%)"
+                echo "⚠️  STOPPING: Failure rate ($(echo "scale=1; ($failed * 100.0) / $processed" | bc)%) exceeds threshold ($FAILURE_THRESHOLD%)"
                 kill -TERM $$
             fi
             
@@ -241,6 +246,13 @@ validate_block_scaled() {
     if [ "$success" = false ]; then
         echo "FAILED after $MAX_RETRIES attempts" > "$status_file"
         echo "$block" >> "$FAILED_FILE"
+        
+        # Print error immediately
+        echo ""
+        echo "❌ ERROR: Block $block failed validation"
+        echo "   Log: $log_file"
+        tail -n 5 "$log_file" | sed 's/^/   > /'
+        echo ""
     fi
     
     # Cleanup
@@ -254,7 +266,7 @@ validate_block_scaled() {
     fi
 }
 
-export -f validate_block_scaled
+export -f validate_block_scaled save_checkpoint
 export RESULTS_DIR L2_RPC EXECUTION_FIXTURE MAX_RETRIES
 export COMPLETED_FILE FAILED_FILE LOCK_DIR CHECKPOINT_INTERVAL
 
@@ -271,11 +283,10 @@ echo "🏃 Starting validation..."
 echo ""
 
 if command -v parallel &> /dev/null; then
-    # Use GNU parallel with progress bar
+    # Use GNU parallel without progress bar to avoid output conflicts
     parallel -j $PARALLEL_JOBS \
         --joblog "$RESULTS_DIR/parallel.log" \
         --resume-failed \
-        --bar \
         validate_block_scaled :::: "$QUEUE_FILE"
 else
     # Fallback to xargs
@@ -303,9 +314,9 @@ cat <<EOF
 Total blocks: $TOTAL_BLOCKS
 Completed: $COMPLETED_COUNT
 Failed: $FAILED_COUNT
-Success rate: $(awk "BEGIN {printf \"%.2f\", ($COMPLETED_COUNT * 100.0) / ($COMPLETED_COUNT + $FAILED_COUNT)}")%
+Success rate: $(echo "scale=2; ($COMPLETED_COUNT * 100.0) / ($COMPLETED_COUNT + $FAILED_COUNT)" | bc)%
 Duration: $((DURATION / 3600))h $((DURATION % 3600 / 60))m $((DURATION % 60))s
-Average speed: $(awk "BEGIN {printf \"%.2f\", ($COMPLETED_COUNT + $FAILED_COUNT) / ($DURATION / 60.0)}") blocks/min
+Average speed: $(echo "scale=2; ($COMPLETED_COUNT + $FAILED_COUNT) / ($DURATION / 60.0)" | bc) blocks/min
 
 Results saved to: $RESULTS_DIR
 EOF
@@ -319,9 +330,9 @@ cat > "$REPORT_FILE" <<EOF
   "total_blocks": $TOTAL_BLOCKS,
   "completed": $COMPLETED_COUNT,
   "failed": $FAILED_COUNT,
-  "success_rate": $(awk "BEGIN {printf \"%.2f\", ($COMPLETED_COUNT * 100.0) / ($COMPLETED_COUNT + $FAILED_COUNT)}"),
+  "success_rate": $(echo "scale=2; ($COMPLETED_COUNT * 100.0) / ($COMPLETED_COUNT + $FAILED_COUNT)" | bc),
   "duration_seconds": $DURATION,
-  "average_blocks_per_minute": $(awk "BEGIN {printf \"%.2f\", ($COMPLETED_COUNT + $FAILED_COUNT) / ($DURATION / 60.0)}"),
+  "average_blocks_per_minute": $(echo "scale=2; ($COMPLETED_COUNT + $FAILED_COUNT) / ($DURATION / 60.0)" | bc),
   "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 }
 EOF

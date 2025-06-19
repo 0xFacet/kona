@@ -20,8 +20,8 @@ use alloy_primitives::{Address, B256, Bytes, U256};
 /// | 32      | BlobBaseFee              |
 /// | 32      | BlockHash                |
 /// | 32      | BatcherHash              |
-/// | 16      | FctMintRate              |
 /// | 16      | FctMintPeriodL1DataGas   |
+/// | 16      | FctMintRate              |
 /// +---------+--------------------------+
 #[derive(Debug, Clone, Hash, Eq, PartialEq, Default, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -82,8 +82,9 @@ impl L1BlockInfoFacet {
         buf.extend_from_slice(U256::from(self.blob_base_fee).to_be_bytes::<32>().as_ref());
         buf.extend_from_slice(self.block_hash.as_ref());
         buf.extend_from_slice(self.batcher_address.into_word().as_ref());
-        buf.extend_from_slice(self.fct_mint_rate.to_be_bytes().as_ref());
+        // Facet-specific fields - note the order matches Ruby implementation
         buf.extend_from_slice(self.fct_mint_period_l1_data_gas.to_be_bytes().as_ref());
+        buf.extend_from_slice(self.fct_mint_rate.to_be_bytes().as_ref());
         // Notice: do not include the `empty_scalars` field in the calldata.
         // Notice: do not include the `l1_fee_overhead` field in the calldata.
         buf.into()
@@ -136,15 +137,16 @@ impl L1BlockInfoFacet {
         let block_hash = B256::from_slice(r[100..132].as_ref());
         let batcher_address = Address::from_slice(r[144..164].as_ref());
 
-        // SAFETY: 16 bytes are copied directly into the array
-        let mut fct_mint_rate = [0u8; 16];
-        fct_mint_rate.copy_from_slice(&r[164..180]);
-        let fct_mint_rate = u128::from_be_bytes(fct_mint_rate);
-
+        // Facet-specific fields
         // SAFETY: 16 bytes are copied directly into the array
         let mut fct_mint_period_l1_data_gas = [0u8; 16];
-        fct_mint_period_l1_data_gas.copy_from_slice(&r[180..196]);
+        fct_mint_period_l1_data_gas.copy_from_slice(&r[164..180]);
         let fct_mint_period_l1_data_gas = u128::from_be_bytes(fct_mint_period_l1_data_gas);
+
+        // SAFETY: 16 bytes are copied directly into the array
+        let mut fct_mint_rate = [0u8; 16];
+        fct_mint_rate.copy_from_slice(&r[180..196]);
+        let fct_mint_rate = u128::from_be_bytes(fct_mint_rate);
 
         Ok(Self {
             number,
@@ -204,4 +206,4 @@ mod tests {
         let decoded_info = L1BlockInfoFacet::decode_calldata(&calldata).unwrap();
         assert_eq!(info, decoded_info);
     }
-} 
+}

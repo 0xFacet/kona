@@ -67,8 +67,36 @@ where
             .map_err(Into::into)?;
 
         // Initialize FCT values - will be updated if processing facet deposits
-        let mut new_fct_mint_rate = 0u128;
-        let mut new_fct_mint_period_l1_data_gas = 0u128;
+        let mut new_fct_mint_rate: u128;
+        let mut new_fct_mint_period_l1_data_gas: u128;
+        
+        // Read facet parameters from parent block (needed for both new and continuing epochs)
+        let (parent_fct_mint_rate, parent_fct_mint_period_l1_data_gas) = if l2_parent.block_info.number > 0 {
+            // Fetch parent block to get facet parameters
+            let parent_block = self
+                .config_fetcher
+                .block_by_number(l2_parent.block_info.number)
+                .await
+                .map_err(|e| PipelineError::AttributesBuilder(BuilderError::Custom(e.to_string())).crit())?;
+            
+            let first_tx = parent_block.body.transactions.first()
+                .ok_or_else(|| PipelineError::AttributesBuilder(BuilderError::Custom("Parent block has no transactions".to_string())).crit())?;
+            
+            let deposit_tx = first_tx.as_deposit()
+                .ok_or_else(|| PipelineError::AttributesBuilder(BuilderError::Custom("First transaction is not a deposit".to_string())).crit())?;
+            
+            let l1_info = L1BlockInfoTx::decode_calldata(deposit_tx.input().as_ref())
+                .map_err(|e| PipelineError::AttributesBuilder(BuilderError::Custom(format!("Failed to decode L1 info: {}", e))).crit())?;
+            
+            match l1_info {
+                L1BlockInfoTx::Facet(facet_info) => {
+                    (facet_info.fct_mint_rate, facet_info.fct_mint_period_l1_data_gas)
+                }
+                _ => return Err(PipelineError::AttributesBuilder(BuilderError::Custom("Parent block is not using Facet L1 info variant".to_string())).crit()),
+            }
+        } else {
+            (FctMintCalculator::INITIAL_RATE, 0u128)
+        };
 
         // If the L1 origin changed in this block, then we are in the first block of the epoch.
         // In this case we need to fetch all transaction receipts from the L1 origin block so
@@ -94,41 +122,13 @@ where
                 .await
                 .map_err(Into::into)?;
 
-            // Read facet parameters from parent block
-            let (fct_mint_rate, fct_mint_period_l1_data_gas) = if l2_parent.block_info.number > 0 {
-                // Fetch parent block to get facet parameters
-                let parent_block = self
-                    .config_fetcher
-                    .block_by_number(l2_parent.block_info.number - 1)
-                    .await
-                    .map_err(|e| PipelineError::AttributesBuilder(BuilderError::Custom(e.to_string())).crit())?;
-                
-                let first_tx = parent_block.body.transactions.first()
-                    .ok_or_else(|| PipelineError::AttributesBuilder(BuilderError::Custom("Parent block has no transactions".to_string())).crit())?;
-                
-                let deposit_tx = first_tx.as_deposit()
-                    .ok_or_else(|| PipelineError::AttributesBuilder(BuilderError::Custom("First transaction is not a deposit".to_string())).crit())?;
-                
-                let l1_info = L1BlockInfoTx::decode_calldata(deposit_tx.input().as_ref())
-                    .map_err(|e| PipelineError::AttributesBuilder(BuilderError::Custom(format!("Failed to decode L1 info: {}", e))).crit())?;
-                
-                match l1_info {
-                    L1BlockInfoTx::Facet(facet_info) => {
-                        (facet_info.fct_mint_rate, facet_info.fct_mint_period_l1_data_gas)
-                    }
-                    _ => return Err(PipelineError::AttributesBuilder(BuilderError::Custom("Parent block is not using Facet L1 info variant".to_string())).crit()),
-                }
-            } else {
-                (FctMintCalculator::INITIAL_RATE, 0u128)
-            };
-
             let (deposits, rate, cumulative_gas) = derive_facet_deposits(
                 &txs,
                 &receipts,
                 self.rollup_cfg.l2_chain_id,
                 l2_parent.block_info.number + 1, // Next L2 block number
-                fct_mint_rate,
-                fct_mint_period_l1_data_gas,
+                parent_fct_mint_rate,
+                parent_fct_mint_period_l1_data_gas,
             )
             .map_err(|e| PipelineError::BadEncoding(e).crit())?;
             
@@ -157,6 +157,9 @@ where
                 self.receipts_fetcher.header_by_hash(epoch.hash).await.map_err(Into::into)?;
             l1_header = header;
             deposit_transactions = vec![];
+            // Preserve parent FCT values when not processing deposits
+            new_fct_mint_rate = parent_fct_mint_rate;
+            new_fct_mint_period_l1_data_gas = parent_fct_mint_period_l1_data_gas;
             l2_parent.seq_num + 1
         };
 

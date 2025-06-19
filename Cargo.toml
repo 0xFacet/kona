@@ -152,7 +152,7 @@ url = "2.5.4"
 lru = "0.14.0"
 dirs = "6.0.0"
 spin = "0.10.0"
-clap = "4.5.37"
+clap = { version = "4.5.37", features = ["derive"] }
 tower = "0.5.2"
 tokio = "1.44.2"
 rayon = "1.10.0"
@@ -177,6 +177,7 @@ unsigned-varint = "0.8.0"
 tracing-appender = "0.2.3"
 buddy_system_allocator = "0.11.0"
 hex = "0.4.3"
+eyre = "0.6.12"
 
 rand = { version = "0.9.1", default-features = false }
 tabled = { version = "0.19", default-features = false }
@@ -249,7 +250,6 @@ revm-precompile = { git = "https://github.com/0xFacet/facet-revm", branch = "fac
 revm-primitives = { git = "https://github.com/0xFacet/facet-revm", branch = "facet-initial-changes" }
 revm-state = { git = "https://github.com/0xFacet/facet-revm", branch = "facet-initial-changes" }
 op-revm = { version = "3.0.1", git = "https://github.com/0xFacet/facet-revm", branch = "facet-initial-changes" }
-
 # For local development, uncomment these lines and comment out the git patches above:
 # revm = { version = "22.0.1", path = "../revm/crates/revm" }
 # revm-bytecode = { path = "../revm/crates/bytecode" }
