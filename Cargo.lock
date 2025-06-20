@@ -276,9 +276,9 @@ dependencies = [
 
 [[package]]
 name = "alloy-json-abi"
-version = "1.2.0"
+version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8b26fdd571915bafe857fccba4ee1a4f352965800e46a53e4a5f50187b7776fa"
+checksum = "15516116086325c157c18261d768a20677f0f699348000ed391d4ad0dcb82530"
 dependencies = [
  "alloy-primitives",
  "alloy-sol-type-parser",
@@ -368,9 +368,9 @@ dependencies = [
 
 [[package]]
 name = "alloy-primitives"
-version = "1.2.0"
+version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a326d47106039f38b811057215a92139f46eef7983a4b77b10930a0ea5685b1e"
+checksum = "6177ed26655d4e84e00b65cb494d4e0b8830e7cae7ef5d63087d445a2600fb55"
 dependencies = [
  "alloy-rlp",
  "arbitrary",
@@ -640,9 +640,9 @@ dependencies = [
 
 [[package]]
 name = "alloy-sol-macro"
-version = "1.2.0"
+version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d4be1ce1274ddd7fdfac86e5ece1b225e9bba1f2327e20fbb30ee6b9cc1423fe"
+checksum = "a14f21d053aea4c6630687c2f4ad614bed4c81e14737a9b904798b24f30ea849"
 dependencies = [
  "alloy-sol-macro-expander",
  "alloy-sol-macro-input",
@@ -654,9 +654,9 @@ dependencies = [
 
 [[package]]
 name = "alloy-sol-macro-expander"
-version = "1.2.0"
+version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "01e92f3708ea4e0d9139001c86c051c538af0146944a2a9c7181753bd944bf57"
+checksum = "34d99282e7c9ef14eb62727981a985a01869e586d1dec729d3bb33679094c100"
 dependencies = [
  "alloy-sol-macro-input",
  "const-hex",
@@ -672,9 +672,9 @@ dependencies = [
 
 [[package]]
 name = "alloy-sol-macro-input"
-version = "1.2.0"
+version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9afe1bd348a41f8c9b4b54dfb314886786d6201235b0b3f47198b9d910c86bb2"
+checksum = "eda029f955b78e493360ee1d7bd11e1ab9f2a220a5715449babc79d6d0a01105"
 dependencies = [
  "const-hex",
  "dunce",
@@ -688,9 +688,9 @@ dependencies = [
 
 [[package]]
 name = "alloy-sol-type-parser"
-version = "1.2.0"
+version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d6195df2acd42df92a380a8db6205a5c7b41282d0ce3f4c665ecf7911ac292f1"
+checksum = "10db1bd7baa35bc8d4a1b07efbf734e73e5ba09f2580fb8cee3483a36087ceb2"
 dependencies = [
  "serde",
  "winnow",
@@ -698,9 +698,9 @@ dependencies = [
 
 [[package]]
 name = "alloy-sol-types"
-version = "1.2.0"
+version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6185e98a79cf19010722f48a74b5a65d153631d2f038cabd250f4b9e9813b8ad"
+checksum = "58377025a47d8b8426b3e4846a251f2c1991033b27f517aade368146f6ab1dfe"
 dependencies = [
  "alloy-json-abi",
  "alloy-primitives",
@@ -2771,12 +2771,12 @@ checksum = "877a4ace8713b0bcf2a4e7eec82529c029f1d0619886d18145fea96c3ffe5c0f"
 
 [[package]]
 name = "errno"
-version = "0.3.12"
+version = "0.3.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cea14ef9355e3beab063703aa9dab15afd25f0667c341310c1e5274bb1d0da18"
+checksum = "778e2ac28f6c47af28e4907f13ffd1e1ddbd400980a9abd7c8df189bf578a5ad"
 dependencies = [
  "libc",
- "windows-sys 0.59.0",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -5832,9 +5832,9 @@ dependencies = [
 
 [[package]]
 name = "metrics-exporter-prometheus"
-version = "0.17.1"
+version = "0.17.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "989903b4c7abfa6827a8d1128ef42faf83f8969d429797c5431f236f2cae8b8b"
+checksum = "2b166dea96003ee2531cf14833efedced545751d800f03535801d833313f8c15"
 dependencies = [
  "base64 0.22.1",
  "http-body-util",
@@ -5852,9 +5852,9 @@ dependencies = [
 
 [[package]]
 name = "metrics-util"
-version = "0.19.2"
+version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "39803e5c24a697c54492a76469034eee8247bd61825502e0410defc3e98eedf0"
+checksum = "fe8db7a05415d0f919ffb905afa37784f71901c9a773188876984b4f769ab986"
 dependencies = [
  "crossbeam-epoch",
  "crossbeam-utils",
@@ -6294,9 +6294,9 @@ checksum = "d6790f58c7ff633d8771f42965289203411a5e5c68388703c06e14f24770b41e"
 
 [[package]]
 name = "op-alloy-consensus"
-version = "0.15.7"
+version = "0.15.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c33ec121a10f7348ee360b8af71caf4623d7e61942c046cdbe4360e4b640316a"
+checksum = "375b501fad264f16781b608252b1b14c627359cc90cc09e80f6cbdac03fd8f07"
 dependencies = [
  "alloy-consensus",
  "alloy-eips 0.15.11",
@@ -6311,9 +6311,9 @@ dependencies = [
 
 [[package]]
 name = "op-alloy-network"
-version = "0.15.7"
+version = "0.15.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1402f67836bb833948037ca6128e0bc7a5261f47d50c4a4b38470c2ecabf6362"
+checksum = "3e65a776c7783650a4ffdf15bdf0526f4b8bdbe00b26df5aeeb1aa2939c6554f"
 dependencies = [
  "alloy-consensus",
  "alloy-network",
@@ -6326,9 +6326,9 @@ dependencies = [
 
 [[package]]
 name = "op-alloy-provider"
-version = "0.15.7"
+version = "0.15.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8e5750a993e607c26901ed139b5e6fa14289257c9d1d9f367dda50c8f8df1872"
+checksum = "e25ed2629159706da365988e278515740ee993f6e5b07531148cf88ea5a6ee8d"
 dependencies = [
  "alloy-network",
  "alloy-primitives",
@@ -6341,9 +6341,9 @@ dependencies = [
 
 [[package]]
 name = "op-alloy-rpc-jsonrpsee"
-version = "0.15.7"
+version = "0.15.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2fb33c378cf40decbd166f49d9df37e315889308ebdc14a7f66cd1765491a6c6"
+checksum = "e9ce30de9f0e222c863ac8bd97f6f9a7eb6f7fb74309e2fbb6b5aca0035a66fb"
 dependencies = [
  "alloy-primitives",
  "jsonrpsee 0.24.9",
@@ -6351,9 +6351,9 @@ dependencies = [
 
 [[package]]
 name = "op-alloy-rpc-types"
-version = "0.15.7"
+version = "0.15.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "084a0a5dc3d5af1e161ca5a602b9efac872c7d416120be24d7f33e299973a204"
+checksum = "1436a5d45b7620bbba236201236ef644abd943258b6349dc5e5a147d65a1fac4"
 dependencies = [
  "alloy-consensus",
  "alloy-eips 0.15.11",
@@ -6370,9 +6370,9 @@ dependencies = [
 
 [[package]]
 name = "op-alloy-rpc-types-engine"
-version = "0.15.7"
+version = "0.15.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1d840947bd5ce24a8db8a29eb7b0eaf8c2280a56eefe968c44a5aa79afe6af51"
+checksum = "0b9767e25626d237857803577081a27082b2fd367934953e1144af433b1f4e07"
 dependencies = [
  "alloy-consensus",
  "alloy-eips 0.15.11",
@@ -6390,8 +6390,8 @@ dependencies = [
 
 [[package]]
 name = "op-revm"
-version = "3.0.1"
-source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#3f9f0e0c51eb3c44754a103fcf1dc5c1c0b40a9a"
+version = "3.0.2"
+source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#1f98915f913a75d2ddd4bdfffbcd75fec87aa303"
 dependencies = [
  "auto_impl",
  "once_cell",
@@ -7039,9 +7039,9 @@ dependencies = [
 
 [[package]]
 name = "quinn-udp"
-version = "0.5.12"
+version = "0.5.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ee4e529991f949c5e25755532370b8af5d114acae52326361d68d47af64aa842"
+checksum = "fcebb1209ee276352ef14ff8732e24cc2b02bbac986cd74a4c81bcb2f9881970"
 dependencies = [
  "cfg_aliases",
  "libc",
@@ -7418,7 +7418,7 @@ checksum = "95325155c684b1c89f7765e30bc1c42e4a6da51ca513615660cb8a62ef9a88e3"
 [[package]]
 name = "revm"
 version = "22.0.1"
-source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#3f9f0e0c51eb3c44754a103fcf1dc5c1c0b40a9a"
+source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#1f98915f913a75d2ddd4bdfffbcd75fec87aa303"
 dependencies = [
  "revm-bytecode",
  "revm-context",
@@ -7436,7 +7436,7 @@ dependencies = [
 [[package]]
 name = "revm-bytecode"
 version = "3.0.0"
-source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#3f9f0e0c51eb3c44754a103fcf1dc5c1c0b40a9a"
+source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#1f98915f913a75d2ddd4bdfffbcd75fec87aa303"
 dependencies = [
  "bitvec",
  "phf",
@@ -7447,7 +7447,7 @@ dependencies = [
 [[package]]
 name = "revm-context"
 version = "3.0.0"
-source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#3f9f0e0c51eb3c44754a103fcf1dc5c1c0b40a9a"
+source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#1f98915f913a75d2ddd4bdfffbcd75fec87aa303"
 dependencies = [
  "cfg-if",
  "derive-where",
@@ -7462,7 +7462,7 @@ dependencies = [
 [[package]]
 name = "revm-context-interface"
 version = "3.0.0"
-source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#3f9f0e0c51eb3c44754a103fcf1dc5c1c0b40a9a"
+source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#1f98915f913a75d2ddd4bdfffbcd75fec87aa303"
 dependencies = [
  "alloy-eip2930",
  "alloy-eip7702",
@@ -7476,7 +7476,7 @@ dependencies = [
 [[package]]
 name = "revm-database"
 version = "3.0.0"
-source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#3f9f0e0c51eb3c44754a103fcf1dc5c1c0b40a9a"
+source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#1f98915f913a75d2ddd4bdfffbcd75fec87aa303"
 dependencies = [
  "alloy-eips 0.14.0",
  "revm-bytecode",
@@ -7489,7 +7489,7 @@ dependencies = [
 [[package]]
 name = "revm-database-interface"
 version = "3.0.0"
-source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#3f9f0e0c51eb3c44754a103fcf1dc5c1c0b40a9a"
+source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#1f98915f913a75d2ddd4bdfffbcd75fec87aa303"
 dependencies = [
  "auto_impl",
  "revm-primitives",
@@ -7500,7 +7500,7 @@ dependencies = [
 [[package]]
 name = "revm-handler"
 version = "3.0.0"
-source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#3f9f0e0c51eb3c44754a103fcf1dc5c1c0b40a9a"
+source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#1f98915f913a75d2ddd4bdfffbcd75fec87aa303"
 dependencies = [
  "auto_impl",
  "revm-bytecode",
@@ -7517,7 +7517,7 @@ dependencies = [
 [[package]]
 name = "revm-inspector"
 version = "3.0.0"
-source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#3f9f0e0c51eb3c44754a103fcf1dc5c1c0b40a9a"
+source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#1f98915f913a75d2ddd4bdfffbcd75fec87aa303"
 dependencies = [
  "auto_impl",
  "revm-context",
@@ -7533,7 +7533,7 @@ dependencies = [
 [[package]]
 name = "revm-interpreter"
 version = "18.0.0"
-source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#3f9f0e0c51eb3c44754a103fcf1dc5c1c0b40a9a"
+source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#1f98915f913a75d2ddd4bdfffbcd75fec87aa303"
 dependencies = [
  "revm-bytecode",
  "revm-context-interface",
@@ -7544,7 +7544,7 @@ dependencies = [
 [[package]]
 name = "revm-precompile"
 version = "19.0.0"
-source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#3f9f0e0c51eb3c44754a103fcf1dc5c1c0b40a9a"
+source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#1f98915f913a75d2ddd4bdfffbcd75fec87aa303"
 dependencies = [
  "ark-bls12-381",
  "ark-bn254",
@@ -7568,7 +7568,7 @@ dependencies = [
 [[package]]
 name = "revm-primitives"
 version = "18.0.0"
-source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#3f9f0e0c51eb3c44754a103fcf1dc5c1c0b40a9a"
+source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#1f98915f913a75d2ddd4bdfffbcd75fec87aa303"
 dependencies = [
  "alloy-primitives",
  "enumn",
@@ -7578,7 +7578,7 @@ dependencies = [
 [[package]]
 name = "revm-state"
 version = "3.0.0"
-source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#3f9f0e0c51eb3c44754a103fcf1dc5c1c0b40a9a"
+source = "git+https://github.com/0xFacet/facet-revm?branch=facet-initial-changes#1f98915f913a75d2ddd4bdfffbcd75fec87aa303"
 dependencies = [
  "bitflags 2.9.1",
  "revm-bytecode",
@@ -8603,9 +8603,9 @@ dependencies = [
 
 [[package]]
 name = "syn-solidity"
-version = "1.2.0"
+version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "14c8c8f496c33dc6343dac05b4be8d9e0bca180a4caa81d7b8416b10cc2273cd"
+checksum = "b9ac494e7266fcdd2ad80bf4375d55d27a117ea5c866c26d0e97fe5b3caeeb75"
 dependencies = [
  "paste",
  "proc-macro2",
@@ -9544,14 +9544,14 @@ version = "0.26.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "75c7f0ef91146ebfb530314f5f1d24528d7f0767efbfd31dce919275413e393e"
 dependencies = [
- "webpki-root-certs 1.0.0",
+ "webpki-root-certs 1.0.1",
 ]
 
 [[package]]
 name = "webpki-root-certs"
-version = "1.0.0"
+version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "01a83f7e1a9f8712695c03eabe9ed3fbca0feff0152f33f12593e5a6303cb1a4"
+checksum = "86138b15b2b7d561bc4469e77027b8dd005a43dc502e9031d1f5afc8ce1f280e"
 dependencies = [
  "rustls-pki-types",
 ]
@@ -9562,14 +9562,14 @@ version = "0.26.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "521bc38abb08001b01866da9f51eb7c5d647a19260e00054a8c7fd5f9e57f7a9"
 dependencies = [
- "webpki-roots 1.0.0",
+ "webpki-roots 1.0.1",
 ]
 
 [[package]]
 name = "webpki-roots"
-version = "1.0.0"
+version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2853738d1cc4f2da3a225c18ec6c3721abb31961096e9dbf5ab35fa88b19cfdb"
+checksum = "8782dd5a41a24eed3a4f40b606249b3e236ca61adf1f25ea4d45c73de122b502"
 dependencies = [
  "rustls-pki-types",
 ]

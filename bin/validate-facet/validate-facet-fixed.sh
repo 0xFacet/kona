@@ -21,7 +21,7 @@ fi
 BLOCK_NUMBER=$1
 # Use Facet rollup config by default
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROLLUP_CONFIG_PATH=${2:-"$SCRIPT_DIR/facet-rollup-config.json"}
+ROLLUP_CONFIG_PATH=${2:-"$SCRIPT_DIR/facet-mainnet-rollup-config.json"}
 VERBOSITY=${3:-''}
 
 # Move to the workspace root
@@ -33,6 +33,7 @@ cd "$(git rev-parse --show-toplevel)"
 
 # Get L2 chain ID from the rollup config
 L2_CHAIN_ID=$(jq -r '.l2_chain_id' < "$ROLLUP_CONFIG_PATH")
+echo "Using rollup config: $ROLLUP_CONFIG_PATH (L2 chain ID: $L2_CHAIN_ID)"
 
 # Minimal output during bulk operations
 # echo ""

@@ -162,7 +162,7 @@ class FacetBulkValidator
         # Run with timeout to prevent hanging
         begin
           Timeout::timeout(60) do  # 60 second timeout
-            stdout, stderr, status = Open3.capture3(env, "./bin/validate-facet/validate-facet-fixed.sh #{block_number}")
+            stdout, stderr, status = Open3.capture3(env, "./bin/validate-facet/validate-facet.sh #{block_number}")
           end
         rescue Timeout::Error
           stdout = ""
