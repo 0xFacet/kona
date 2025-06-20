@@ -34,11 +34,11 @@ struct Args {
     jobs: usize,
 
     /// L1 RPC endpoint
-    #[arg(long, default_value = "https://ethereum-rpc.publicnode.com")]
+    #[arg(long, env = "L1_RPC")]
     l1_rpc: String,
 
     /// L2 RPC endpoint
-    #[arg(long, default_value = "https://mainnet.facet.org")]
+    #[arg(long, env = "L2_RPC")]
     l2_rpc: String,
 
     /// Output directory for results

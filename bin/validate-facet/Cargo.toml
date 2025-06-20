@@ -3,6 +3,14 @@ name = "validate-facet"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "validate-facet"
+path = "src/main.rs"
+
+[[bin]]
+name = "test-block"
+path = "src/test_block.rs"
+
 [dependencies]
 # CLI and async runtime
 clap = { version = "4.5", features = ["derive"] }
@@ -34,13 +42,16 @@ kona-derive = { path = "../../crates/protocol/derive" }
 kona-protocol = { path = "../../crates/protocol/protocol" }
 kona-genesis = { path = "../../crates/protocol/genesis" }
 kona-providers-alloy = { path = "../../crates/providers/providers-alloy" }
+kona-executor = { path = "../../crates/proof/executor" }
 
-# Alloy dependencies
-alloy-primitives = "0.8"
-alloy-provider = "0.15"
-alloy-eips = "0.15"
-alloy-rpc-types-eth = "0.15"
-op-alloy-network = "0.15"
+# Alloy dependencies - use workspace versions
+alloy-primitives = { workspace = true }
+alloy-provider = { workspace = true }
+alloy-eips = { workspace = true }
+alloy-rpc-types-eth = { workspace = true }
+alloy-consensus = { workspace = true }
+op-alloy-network = { workspace = true }
+op-alloy-rpc-types = { workspace = true }
 
 # File system
 tempfile = "3.8"

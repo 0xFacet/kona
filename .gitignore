@@ -25,3 +25,5 @@ data/
 prestate-artifacts-*
 
 facet-fixture/
+
+.envrc

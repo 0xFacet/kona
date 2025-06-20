@@ -9,9 +9,18 @@ RED='\033[0;31m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
+# Check for required environment variables
+if [ -z "${L1_RPC:-}" ] || [ -z "${L2_RPC:-}" ]; then
+    echo -e "${RED}Error: Required environment variables not set${NC}"
+    echo "Please set the following environment variables:"
+    echo "  export L1_RPC=\"your_l1_rpc_url\""
+    echo "  export L2_RPC=\"your_l2_rpc_url\""
+    echo ""
+    echo "Or use direnv with a .envrc file"
+    exit 1
+fi
+
 # Default values
-DEFAULT_L1_RPC="https://ethereum-rpc.publicnode.com"
-DEFAULT_L2_RPC="https://mainnet.facet.org"
 DEFAULT_JOBS=16
 DEFAULT_SAMPLE_RATE=1
 
@@ -27,8 +36,8 @@ show_help() {
     echo ""
     echo "Options:"
     echo "  -j, --jobs NUM     Number of parallel workers (default: $DEFAULT_JOBS)"
-    echo "  --l1-rpc URL       L1 RPC endpoint (default: $DEFAULT_L1_RPC)"
-    echo "  --l2-rpc URL       L2 RPC endpoint (default: $DEFAULT_L2_RPC)"
+    echo "  --l1-rpc URL       L1 RPC endpoint (env: L1_RPC)"
+    echo "  --l2-rpc URL       L2 RPC endpoint (env: L2_RPC)"
     echo "  -o, --output DIR   Output directory for results"
     echo "  --skip-execution   Skip execution validation"
     echo "  --skip-derivation  Skip derivation validation"
@@ -125,8 +134,7 @@ END_BLOCK="${ARGS[1]}"
 
 # Set defaults
 JOBS="${JOBS:-$DEFAULT_JOBS}"
-L1_RPC="${L1_RPC:-$DEFAULT_L1_RPC}"
-L2_RPC="${L2_RPC:-$DEFAULT_L2_RPC}"
+# L1_RPC and L2_RPC are already checked above
 SAMPLE_RATE="${SAMPLE_RATE:-$DEFAULT_SAMPLE_RATE}"
 
 # Build the validate-facet binary if needed
